@@ -1,0 +1,59 @@
+.base {
+  width: 100%;
+  height: 100vh;
+}
+.base .banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 384px;
+}
+.base .main {
+  padding-top: 50px;
+  margin-bottom: 20px;
+}
+.base .main .tab {
+  padding-top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.base .main h1 span {
+  margin-right: 20px;
+  line-height: 60px;
+  font-weight: 100;
+  font-size: 25px;
+  user-select: none;
+}
+.base .main .text {
+  line-height: 30px;
+  color: #666;
+  text-indent: 2em;
+}
+.base .main .tab_div {
+  width: 920px;
+  border: 1px solid #e5e5e5;
+  padding: 20px 40px;
+}
+.base .main .tab_div p {
+  line-height: 30px;
+  color: #666;
+}
+.base .main .tab_div h5 {
+  font-size: 16px;
+  line-height: 30px;
+  margin-bottom: 5px;
+}
+.base .main .tab_div_hezuo {
+  width: 920px;
+  border: 1px solid #e5e5e5;
+  padding: 20px 40px;
+}
+.base .main .tab_div_hezuo .te {
+  color: #666;
+  line-height: 30px;
+  padding-left: 20px;
+  border-bottom: 1px dotted #c6c6c6;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}

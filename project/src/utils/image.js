@@ -1,0 +1,12 @@
+import Cat from "../assets/images/cat.jpg";
+import Cat1 from "../assets/images/cat1.jpg";
+import Dog from "../assets/images/dog.jpg";
+import Dog1 from "../assets/images/dog1.jpg";
+import Logo from "../assets/images/logo.png";
+import AdCat from "../assets/images/adcat.jpg";
+import Forhelp from "../assets/images/help.jpg";
+import ToHelp from "../assets/images/forhelp.png";
+import Fuwu from "../assets/images/fuwu.png";
+import Si from "../assets/images/si.png";
+import JinUs from "../assets/images/joinus.png";
+export { Cat, Cat1, Dog, Dog1, Logo, AdCat, Forhelp, ToHelp, Fuwu, Si, JinUs };
