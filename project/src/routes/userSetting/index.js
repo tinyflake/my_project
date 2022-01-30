@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "dva";
-import { Form, Input, Button, Modal, Spin, ImgCrop, Upload } from "antd";
+import { Form, Input, Button, Modal, Spin } from "antd";
 import { delCookie, getCookie } from "../../utils/cookie";
 import IconUpload from "./iconUpload";
 function UserSetting(props) {
@@ -19,6 +19,7 @@ function UserSetting(props) {
       delCookie("username");
       delCookie("token");
       setModal(false);
+      clearTimeout(timerID);
       setTimerID(null);
       window.location.reload();
     }
@@ -54,7 +55,20 @@ function UserSetting(props) {
       >
         <Input />
       </Form.Item>
-      <IconUpload />
+      <Form.Item label="">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <div>形象设置：</div>
+          <div>
+            <IconUpload />
+          </div>
+        </div>
+      </Form.Item>
       <Form.Item
         label="原密码"
         name="password"

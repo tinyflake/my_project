@@ -2,7 +2,7 @@ var express = require("express");
 var multer = require("multer"); //处理图片
 var api = require("../solving/api");
 var router = express.Router();
-var upload = multer({ dest: "./uploads/" }); // 文件储存路径
+var upload = multer({ dest: "./public/uploads/" }); // 文件储存路径
 //修改用户信息
 router.post("/updata", api.userUpdata);
 

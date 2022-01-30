@@ -5,14 +5,94 @@
   .main {
     padding-top: 50px;
     padding: 50px 200px;
-    >div{
+    > div {
       border: 1px solid rgb(78, 193, 221);
-margin-top: 20px;
-padding: 18px;
-.title{
-  display: flex;
-  justify-content:space-between;
-}
+      margin-top: 20px;
+      padding: 18px;
+      .title {
+        display: flex;
+        justify-content: space-between;
+      }
     }
   }
+  .detail {
+    padding-top: 50px;
+    color: pink;
+    .site_page_header {
+      border: 1px solid rgb(235, 237, 240);
+    }
+    .detailItem {
+      display: flex;
+      justify-content: space-between;
+      > div {
+        width: 100%;
+      }
+      .itemCard {
+        > div {
+          min-height: 400px;
+          position: relative;
+          display: flex;
+          justify-content: normal;
+          padding: 12px;
+          border-radius: 5px;
+          border: 1px solid #dddddd;
+          img {
+            width: 200px;
+            padding: 8px;
+          }
+        }
+      }
+      .icons {
+        position: absolute;
+        right: 30px;
+        bottom: 12px;
+        color: #8c8c8c;
+        > div {
+          padding: 0 12px;
+        }
+        .btnIcon {
+          cursor: pointer;
+        }
+      }
+      .loginLogo {
+        width: 44px;
+        border-radius: 44px;
+        background-color: rgb(160, 217, 246);
+      }
+      .item_p {
+        margin-top: 10px;
+      }
+      .itemLogin {
+        button {
+          width: 50%;
+          height: 100%;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+          padding: 25px 50px;
+          font-size: 16px;
+          color: rgb(224, 152, 20);
+        }
+      }
+    }
+  }
+}
+.blowUp {
+  transform: scale(1);
+  transition: 0.3s;
+  &:hover {
+    transform: scale(1.15);
+    transition: 0.3s;
+    overflow: hidden;
+  }
+}
+.backTop {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
 }

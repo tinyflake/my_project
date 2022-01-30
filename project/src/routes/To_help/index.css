@@ -15,3 +15,79 @@
   display: flex;
   justify-content: space-between;
 }
+.base .detail {
+  padding-top: 50px;
+  color: pink;
+}
+.base .detail .site_page_header {
+  border: 1px solid #ebedf0;
+}
+.base .detail .detailItem {
+  display: flex;
+  justify-content: space-between;
+}
+.base .detail .detailItem > div {
+  width: 100%;
+}
+.base .detail .detailItem .itemCard > div {
+  min-height: 400px;
+  position: relative;
+  display: flex;
+  justify-content: normal;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #dddddd;
+}
+.base .detail .detailItem .itemCard > div img {
+  width: 200px;
+  padding: 8px;
+}
+.base .detail .detailItem .icons {
+  position: absolute;
+  right: 30px;
+  bottom: 12px;
+  color: #8c8c8c;
+}
+.base .detail .detailItem .icons > div {
+  padding: 0 12px;
+}
+.base .detail .detailItem .icons .btnIcon {
+  cursor: pointer;
+}
+.base .detail .detailItem .loginLogo {
+  width: 44px;
+  border-radius: 44px;
+  background-color: #a0d9f6;
+}
+.base .detail .detailItem .item_p {
+  margin-top: 10px;
+}
+.base .detail .detailItem .itemLogin button {
+  width: 50%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 25px 50px;
+  font-size: 16px;
+  color: #e09814;
+}
+.blowUp {
+  transform: scale(1);
+  transition: 0.3s;
+}
+.blowUp:hover {
+  transform: scale(1.15);
+  transition: 0.3s;
+  overflow: hidden;
+}
+.backTop {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+}

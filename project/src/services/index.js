@@ -19,6 +19,10 @@ export function userUpdata(data) {
 export function requestAssistance(data) {
   return post("/api/requestAssistance", data);
 }
-export function getImage(data) {
-  return axiosGetImage("/images", data);
+export function getImage(payload) {
+  return axiosGetImage(payload.url, payload.iconUrl);
+}
+
+export function getAnimalList(data) {
+  return get("/users/getAnimalList", data);
 }

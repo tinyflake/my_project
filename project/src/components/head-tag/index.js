@@ -1,5 +1,5 @@
 /* eslint-disable no-script-url */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { DownOutlined } from "@ant-design/icons";
 import { Link } from "dva/router";
 import { Dropdown, Menu, message } from "antd";
@@ -9,40 +9,46 @@ import styles from "./index.less";
 import { delCookie, getCookie } from "../../utils/cookie";
 function HeadTag(props) {
   useEffect(() => {
-    if (getCookie("username")) {
+    if (getCookie("username") && getCookie("password")) {
+      const values = {
+        username: getCookie("username"),
+        password: getCookie("password"),
+      };
       props.dispatch({
-        type: "index/changeUsername",
-        payload: { username: getCookie("username") },
-      });
-      props.dispatch({
-        type: "index/changeNickname",
-        payload: { nickname: getCookie("nickname") },
+        type: "index/requestLogin",
+        payload: {
+          username: values.username,
+          password: values.password,
+        },
+        callback: () => {
+          document.cookie = `username=${values.username}`;
+          document.cookie = `password=${values.password}`;
+        },
       });
     }
-    // if (props.iconUrl) {
-    //   props.dispatch({
-    //     type: "index/getImage",
-    //     payload: { iconUrl: props.iconUrl },
-    //   });
-    // }
   }, []);
   useEffect(() => {
-    //请求图片
-    if (props.iconUrl) {
+    //登录成功后请求用户头像并转base64
+    if (props.iconUrl)
       props.dispatch({
         type: "index/getImage",
-        payload: { iconUrl: props.iconUrl },
+        payload: {
+          url: "/images",
+          iconUrl: props.iconUrl,
+        },
       });
-    }
   }, [props.iconUrl]);
   const { nickname, username, iconBase64 } = props;
   const logOff = () => {
     delCookie("username");
     delCookie("token");
+    delCookie("nickname");
+    delCookie("password");
     props.dispatch({
       type: "index/changeUsername",
       payload: { username: "" },
     });
+    window.location.reload();
   };
   const menu = (
     <Menu>
@@ -104,11 +110,12 @@ function HeadTag(props) {
           )}
         </div>
         <div>
-          {username ? (
+          <Link to="/To_help">我要救助</Link>
+          {/* {username ? (
             <Link to="/To_help">我要救助</Link>
           ) : (
             turnToLogin("我要救助")
-          )}
+          )} */}
         </div>
         <div>
           <Link to="/how-care">如何照料</Link>
@@ -130,7 +137,7 @@ function HeadTag(props) {
               className="ant-dropdown-link"
               onClick={(e) => e.preventDefault()}
             >
-              {nickname ? nickname : username}
+              {nickname && nickname !== "null" ? nickname : username}
               <img src={iconBase64} alt="" />
               <DownOutlined />
             </a>

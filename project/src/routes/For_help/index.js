@@ -123,12 +123,12 @@ function For_help(props) {
               rules={[
                 {
                   required: true,
-                  message: "请务必上传图片，让大家看到它的状况!",
+                  message: "请务必上传图片!",
                 },
               ]}
               className={styles.formItem}
             >
-              <UploadPic></UploadPic>
+              <UploadPic />
             </Form.Item>
             <Form.Item className={styles.formItem}>
               <div style={{ width: "100%", textAlign: "center" }}>

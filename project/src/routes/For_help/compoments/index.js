@@ -65,7 +65,7 @@ class UploadPic extends React.Component {
       <>
         <Upload
           name="photo"
-          accept=".png, .jpg, .jpeg, .gif, .webp "
+          accept=".png, .jpg, .jpeg, .gif, .webp ,.jfif"
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}

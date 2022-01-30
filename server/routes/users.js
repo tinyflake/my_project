@@ -10,10 +10,9 @@ router.post("/register", user.userReg);
 router.post("/login", user.userLogin);
 
 // test
-router.post("/test", function (req, res, next) {
-  console.log(req.query, req.body);
-  if (JSON.stringify(req.query) == "{}") console.log("query参数是空对象");
+router.get("/test", function (req, res, next) {
   res.send({ message: "成功", data: {}, code: 200 }); //响应结果
 });
-
+//查询流浪动物
+router.get("/getAnimalList", user.getAnimalList);
 module.exports = router;

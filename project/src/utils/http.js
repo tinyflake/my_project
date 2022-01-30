@@ -3,37 +3,34 @@ import axios from "axios";
 const token = getCookie("token");
 const baseUrl = "http://127.0.0.1:8888";
 export async function post(url, data) {
-  return axios
-    .post(baseUrl + url, data, {
+  try {
+    const response = await axios.post(baseUrl + url, data, {
       headers: {
         Authorization: token ? "Bearer " + token : "",
       },
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
     });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
 }
 export async function get(url, data) {
-  return axios
-    .get(baseUrl + url, {
+  try {
+    const response = await axios.get(baseUrl + url, {
       params: data,
       headers: {
         Authorization: token ? "Bearer " + token : "",
       },
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
     });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 }
 export async function axiosGetImage(url, data) {
+  console.log("url", baseUrl + url + data, token);
   return axios
-    .get(baseUrl + url + data.iconUrl, {
+    .get(baseUrl + url + data, {
       params: {},
       responseType: "arraybuffer",
       headers: {
@@ -54,4 +51,20 @@ export async function axiosGetImage(url, data) {
     .catch(function (error) {
       console.log(error);
     });
+}
+export async function axiosGetBinaryImage(url, data) {
+  console.log("url", baseUrl + url + data, token);
+  try {
+    const response = await axios.get(baseUrl + url + data, {
+      params: {},
+      responseType: "arraybuffer",
+    });
+    const arrayBufferToBase64Img = (buffer) => {
+      const str = String.fromCharCode(...new Uint8Array(buffer));
+      return `data:image/png;base64,${window.btoa(str)}`;
+    };
+    return arrayBufferToBase64Img(response.data);
+  } catch (error) {
+    console.log(error);
+  }
 }

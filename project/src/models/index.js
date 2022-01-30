@@ -4,6 +4,7 @@ import {
   requestLogin,
   requestAssistance,
   getImage,
+  getAnimalList,
 } from "../services/index";
 import { message } from "antd";
 export default {
@@ -17,8 +18,10 @@ export default {
     showLogin: false, //登录
     username: "",
     fileList: [],
-    iconUrl: "", //默认的头像
     iconBase64: "", //用户头像
+    iconUrl: "",
+    animalList: [],
+    total: 0,
   },
 
   subscriptions: {
@@ -37,6 +40,15 @@ export default {
         console.log(res.data.data);
         document.cookie = `token=${res.data.token}`;
         document.cookie = `nickname=${res.data.data.nickname}`;
+        //获取图片
+        // const base64 = yield call(getImage, res.data.data.icon);
+        // if (base64)
+        //   yield put({
+        //     type: "saveState",
+        //     payload: {
+        //       iconBase64: base64,
+        //     },
+        //   });
       }
       yield put({
         type: "saveState",
@@ -72,17 +84,32 @@ export default {
       }
       callback && callback();
     },
+    //获取待救助流浪动物数据
+    *getAnimalList({ payload, callback }, { call, put }) {
+      const res = yield call(getAnimalList, payload);
+      if (res && res.data.code !== 200) {
+        return message.warn("请求失败");
+      }
+      yield put({
+        type: "saveState",
+        payload: {
+          animalList: res.data.list,
+          total: res.data.total,
+        },
+      });
+      return res.data.list;
+      // callback && callback();
+    },
     //获取图片
     *getImage({ payload, callback }, { call, put }) {
-      const res = yield call(getImage, payload);
-      if (res)
+      const base64 = yield call(getImage, payload);
+      if (base64)
         yield put({
           type: "saveState",
           payload: {
-            iconBase64: res,
+            iconBase64: base64,
           },
         });
-      callback && callback();
     },
   },
 
@@ -124,6 +151,12 @@ export default {
       };
     },
     saveFileList(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    updataAnimalList(state, { payload }) {
       return {
         ...state,
         ...payload,

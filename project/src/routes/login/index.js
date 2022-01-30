@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "dva";
 import styles from "./index.less";
 import { Input, Checkbox, Form, Button, message } from "antd";
-class Login extends React.Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +11,17 @@ class Login extends React.Component {
       checked: false,
     };
   }
+  // componentDidMount() {
+  //   console.log("11");
+  //   console.log(getCookie("username"), getCookie("password"));
+  //   if (getCookie("username") && getCookie("password")) {
+  //     const values = {
+  //       username: getCookie("username"),
+  //       password: getCookie("password"),
+  //     };
+  //     this.login(values);
+  //   }
+  // }
   setValue = (e) => {
     const target = e.target;
     switch (target.name) {
@@ -34,10 +45,11 @@ class Login extends React.Component {
       payload: { showLogin: false },
     });
   };
+
   render() {
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
       if (this.state.checked) {
-        this.props.dispatch({
+        await this.props.dispatch({
           type: "index/requestLogin",
           payload: {
             username: values.username,
@@ -45,7 +57,16 @@ class Login extends React.Component {
           },
           callback: () => {
             document.cookie = `username=${values.username}`;
+            document.cookie = `password=${values.password}`;
             this.props.handleCancelLogin(values.username);
+          },
+        });
+        //登录成功后请求用户头像并转base64
+        this.props.dispatch({
+          type: "index/getImage",
+          payload: {
+            url: "/images",
+            iconUrl: this.props.iconUrl,
           },
         });
       } else {
@@ -122,6 +143,6 @@ class Login extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  return {};
+  return { iconUrl: state.index.iconUrl };
 };
 export default connect(mapStateToProps)(Login);

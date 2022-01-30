@@ -1,6 +1,7 @@
 var db = require("../config/db"); //引入数据库封装模块
 
 var userUpdata = (req, res, next) => {
+  console.log("更新用户数据");
   try {
     // 查询当前用户信息;
     db.query(
@@ -35,58 +36,58 @@ var userUpdata = (req, res, next) => {
 };
 
 var uploudPic = (req, res, next) => {
-  try {
-    // 查询当前用户信息;
-    db.query(
-      `select * From tb_user where username='${req.user.username}'`,
-      [],
-      function (result, err) {
-        let file = req.file;
-        var pic_url = __dirname + file.path;
-        db.query(
-          `INSERT INTO tb_user (username, password,waiting_picture ) VALUES ('${result[0].username}', '${result[0].password}', '${pic_url}')`,
-          [],
-          function (results, fields) {
-            if (err) {
-              console.log("保存到数据库失败！");
-            } else {
-              res.send({
-                code: 200,
-                message: "图片上传成功",
-                urls: pic_url,
-              });
-            }
-          }
-        );
-      }
-    );
-  } catch (error) {
-    res.send({
-      code: -200,
-      message: error,
-    });
-  }
+  // try {
+  //   // 查询当前用户信息;
+  //   db.query(
+  //     `select * From tb_user where username='${req.user.username}'`,
+  //     [],
+  //     function (result, err) {
+  //       let file = req.file;
+  //       var pic_url = __dirname + file.path;
+  //       db.query(
+  //         `INSERT INTO tb_user (username, password,waiting_picture ) VALUES ('${result[0].username}', '${result[0].password}', '${pic_url}')`,
+  //         [],
+  //         function (results, fields) {
+  //           if (err) {
+  //             console.log("保存到数据库失败！");
+  //           } else {
+  //             res.send({
+  //               code: 200,
+  //               message: "图片上传成功",
+  //               urls: pic_url,
+  //             });
+  //           }
+  //         }
+  //       );
+  //     }
+  //   );
+  // } catch (error) {
+  //   res.send({
+  //     code: -200,
+  //     message: error,
+  //   });
+  // }
 };
 var requestAssistance = (req, res, next) => {
   try {
     //设置默认数据全0
-    let pic0 = "0";
-    let pic1 = "0";
-    let pic2 = "0";
+    let pic0 = "";
+    let pic1 = "";
+    let pic2 = "";
     //遍历收到的文件记录路径
+    console.log("图片列表：", req.files);
     req.files.forEach((item, index) => {
+      item.path = item.path.replace("public\\uploads\\", "");
       const pic = "pic" + index;
       switch (pic) {
         case "pic0":
-          pic0 = __dirname + item.path;
-          console.log(pic0, "0");
+          pic0 = item.path;
           break;
         case "pic1":
-          pic1 = __dirname + item.path;
-          console.log(pic1, "1");
+          pic1 = item.path;
           break;
         case "pic2":
-          pic2 = __dirname + item.path;
+          pic2 = item.path;
           break;
         default:
           break;
@@ -121,4 +122,5 @@ var requestAssistance = (req, res, next) => {
     });
   }
 };
+
 module.exports = { userUpdata, uploudPic, requestAssistance };
