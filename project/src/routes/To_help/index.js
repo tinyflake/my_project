@@ -10,10 +10,8 @@ import IconText from "./IconText";
 import Detail from "./Detail";
 import {
   MessageOutlined,
-  LikeOutlined,
-  LikeFilled,
-  StarOutlined,
-  StarFilled,
+  StarTwoTone,
+  LikeTwoTone,
   VerticalAlignTopOutlined,
 } from "@ant-design/icons";
 import { axiosGetBinaryImage } from "../../utils/http";
@@ -64,6 +62,7 @@ function To_help(props) {
   ];
   const onChangeType = (e) => {
     setanimalType(e.target.value);
+    setpageNo(1);
   };
   const detailForHelp = (item) => {
     setdetailItem(item);
@@ -98,6 +97,7 @@ function To_help(props) {
                   onChange: (page) => {
                     setpageNo(page);
                   },
+                  current: pageNo,
                   pageSize: 5,
                   hideOnSinglePage: true,
                   showQuickJumper: true,
@@ -106,39 +106,11 @@ function To_help(props) {
                 dataSource={dataList}
                 renderItem={(item, index) => (
                   <List.Item
+                    style={{ position: "relative", padding: 12 }}
                     key={item.id}
-                    actions={[
-                      <IconText
-                        item={item}
-                        index={item.id}
-                        icon={!item.chooseStar ? StarOutlined : StarFilled}
-                        text={item.star}
-                        iconId="listStar"
-                        key="listStar"
-                      />,
-                      <IconText
-                        item={item}
-                        index={item.id}
-                        icon={!item.chooseLike ? LikeOutlined : LikeFilled}
-                        text={item.like}
-                        iconId="listLike"
-                        key="listLike"
-                      />,
-                      <IconText
-                        item={item}
-                        index={item.id}
-                        icon={MessageOutlined}
-                        text={item.message}
-                        iconId="listMessage"
-                        key="listMessage"
-                      />,
-                      <Button
-                        className={styles.help}
-                        onClick={() => detailForHelp(item)}
-                      >
-                        救助！
-                      </Button>,
-                    ]}
+                    // actions={[
+                    //   ,
+                    // ]}
                     extra={
                       <button
                         onClick={() => detailForHelp(item)}
@@ -162,22 +134,86 @@ function To_help(props) {
                       avatar={
                         <div>
                           <Avatar src={item.avatar} />
-                          {item.nickname}
+                          <span
+                            className={styles.titleForHelp}
+                            onClick={() => detailForHelp(item)}
+                          >
+                            {item.titleForHelp}
+                          </span>
                         </div>
                       }
                       title={<a href={item.href}>{item.title}</a>}
-                      description={item.description}
+                      description={
+                        <div>
+                          <span className={styles.time}>
+                            时间：{item.waiting_time}
+                          </span>
+                          <div>{item.description}</div>
+                        </div>
+                      }
                     />
-                    <h3>创建时间：{item.waiting_time}</h3>
                     <p
                       style={{
                         textIndent: "2em",
                         wordBreak: "break-all",
                         overflow: "hidden",
+                        margin: "3px 0 50px",
                       }}
                     >
                       {item.remark}
                     </p>
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "1em",
+                        justifyContent: "space-around",
+                        display: "flex",
+                        width: 360,
+                      }}
+                    >
+                      <IconText
+                        item={item}
+                        index={item.id}
+                        icon={
+                          !item.chooseStar ? (
+                            <StarTwoTone twoToneColor="#aaa" />
+                          ) : (
+                            <StarTwoTone twoToneColor="#ffa500" />
+                          )
+                        }
+                        text={item.stars}
+                        iconId="listStar"
+                        key="listStar"
+                      />
+                      <IconText
+                        item={item}
+                        index={item.id}
+                        icon={
+                          !item.chooseLike ? (
+                            <LikeTwoTone twoToneColor="#aaa" />
+                          ) : (
+                            <LikeTwoTone twoToneColor="#67c6ea" />
+                          )
+                        }
+                        text={item.likes}
+                        iconId="listLike"
+                        key="listLike"
+                      />
+                      <IconText
+                        item={item}
+                        index={item.id}
+                        icon={<MessageOutlined />}
+                        text={item.message}
+                        iconId="listMessage"
+                        key="listMessage"
+                      />
+                      <Button
+                        className={styles.help}
+                        onClick={() => detailForHelp(item)}
+                      >
+                        救助！
+                      </Button>
+                    </div>
                   </List.Item>
                 )}
               />

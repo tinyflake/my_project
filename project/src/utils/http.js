@@ -27,10 +27,10 @@ export async function get(url, data) {
     console.log(error);
   }
 }
-export async function axiosGetImage(url, data) {
-  console.log("url", baseUrl + url + data, token);
+export async function axiosGetImage(data) {
+  console.log("url", baseUrl + data, token);
   return axios
-    .get(baseUrl + url + data, {
+    .get(baseUrl + data, {
       params: {},
       responseType: "arraybuffer",
       headers: {

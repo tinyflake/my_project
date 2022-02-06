@@ -34,39 +34,45 @@ var userUpdata = (req, res, next) => {
     });
   }
 };
-
+var fs = require("fs");
 var uploudPic = (req, res, next) => {
-  // try {
-  //   // 查询当前用户信息;
-  //   db.query(
-  //     `select * From tb_user where username='${req.user.username}'`,
-  //     [],
-  //     function (result, err) {
-  //       let file = req.file;
-  //       var pic_url = __dirname + file.path;
-  //       db.query(
-  //         `INSERT INTO tb_user (username, password,waiting_picture ) VALUES ('${result[0].username}', '${result[0].password}', '${pic_url}')`,
-  //         [],
-  //         function (results, fields) {
-  //           if (err) {
-  //             console.log("保存到数据库失败！");
-  //           } else {
-  //             res.send({
-  //               code: 200,
-  //               message: "图片上传成功",
-  //               urls: pic_url,
-  //             });
-  //           }
-  //         }
-  //       );
-  //     }
-  //   );
-  // } catch (error) {
-  //   res.send({
-  //     code: -200,
-  //     message: error,
-  //   });
-  // }
+  try {
+    // 查询当前用户信息;
+    db.query(
+      `select * From tb_user where username='${req.user.username}'`,
+      [],
+      function (result, err) {
+        if (result[0].icon !== "moren.png")
+          fs.unlink("./public/uploads/" + result[0].icon, function (error) {
+            if (error) {
+              console.log(error);
+              return false;
+            }
+            console.log("删除文件成功");
+          });
+        db.query(
+          `update tb_user set icon='${req.file.filename}' where id=${result[0].id}`,
+          [],
+          function (results, fields) {
+            if (fields) {
+              console.log("保存到数据库失败！");
+            } else {
+              res.send({
+                code: 200,
+                message: "图片上传成功",
+                urls: req.file.filename,
+              });
+            }
+          }
+        );
+      }
+    );
+  } catch (error) {
+    res.send({
+      code: -200,
+      message: error,
+    });
+  }
 };
 var requestAssistance = (req, res, next) => {
   try {
@@ -100,7 +106,7 @@ var requestAssistance = (req, res, next) => {
       function (result, err) {
         //在求助表加入一条数据
         db.query(
-          `INSERT INTO tb_forhelp (username, nickname,telphone, waiting_addr, waiting_type_animal, remark, waiting_time, pic0, pic1, pic2 ) VALUES ('${result[0].username}', '${req.body.nickname}', '${req.body.telphone}', '${req.body.addr}', '${req.body.animalType}', '${req.body.remark}', '${req.body.datePicker}','${pic0}','${pic1}','${pic2}')`,
+          `INSERT INTO tb_forhelp (titleForHelp ,username, nickname,telphone, waiting_addr, waiting_type_animal, remark, waiting_time, pic0, pic1, pic2 ) VALUES ('${req.body.titleForHelp}', '${result[0].username}', '${req.body.nickname}', '${req.body.telphone}', '${req.body.addr}', '${req.body.animalType}', '${req.body.remark}', '${req.body.datePicker}','${pic0}','${pic1}','${pic2}')`,
           [],
           function (results, fields) {
             if (fields) {
@@ -122,5 +128,38 @@ var requestAssistance = (req, res, next) => {
     });
   }
 };
-
-module.exports = { userUpdata, uploudPic, requestAssistance };
+var addAndLike = (req, res, next) => {
+  try {
+    db.query(
+      `select * From tb_forhelp where id='${req.body.id}'`,
+      [],
+      function (result, err) {
+        const stars = Number(req.body.stars) + Number(result[0].stars);
+        const likes = Number(req.body.likes) + Number(result[0].likes);
+        db.query(
+          `update tb_forhelp set stars=${stars} ,likes=${likes}   where id=${req.body.id}`,
+          [],
+          function (result, err) {
+            db.query(
+              `select * From tb_forhelp where id='${req.body.id}'`,
+              [],
+              function (result, err) {
+                res.send({
+                  code: 200,
+                  message: "收藏点赞成功",
+                  result,
+                });
+              }
+            );
+          }
+        );
+      }
+    );
+  } catch (error) {
+    res.send({
+      code: -200,
+      message: error,
+    });
+  }
+};
+module.exports = { userUpdata, uploudPic, requestAssistance, addAndLike };

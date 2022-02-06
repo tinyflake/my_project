@@ -33,8 +33,8 @@ function HeadTag(props) {
       props.dispatch({
         type: "index/getImage",
         payload: {
-          url: "/images",
-          iconUrl: props.iconUrl,
+          // url: "/images/",
+          iconUrl: "/uploads/" + props.iconUrl,
         },
       });
   }, [props.iconUrl]);
@@ -111,11 +111,6 @@ function HeadTag(props) {
         </div>
         <div>
           <Link to="/To_help">我要救助</Link>
-          {/* {username ? (
-            <Link to="/To_help">我要救助</Link>
-          ) : (
-            turnToLogin("我要救助")
-          )} */}
         </div>
         <div>
           <Link to="/how-care">如何照料</Link>

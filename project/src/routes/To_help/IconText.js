@@ -6,8 +6,16 @@ function IconText(props) {
   const { icon, text, iconId, index, animalList } = props;
   const iconClick = (iconId) => {
     const list = [...animalList];
-    const updata = () => {
-      props.dispatch({
+    const updata = async (like, star) => {
+      await props.dispatch({
+        type: "index/addAndLike",
+        payload: {
+          likes: like,
+          stars: star,
+          id: index,
+        },
+      });
+      await props.dispatch({
         type: "index/updataAnimalList",
         payload: {
           animalList: list,
@@ -18,40 +26,31 @@ function IconText(props) {
       case "listStar":
         list.forEach((item) => {
           if (item.id === index) {
-            item.chooseStar = true;
+            if (item.chooseStar !== true) {
+              item.chooseStar = true;
+              item.stars += 1;
+              updata(0, 1);
+            } else {
+              message.warning("已经收藏了噢！");
+            }
           }
         });
-        updata();
         break;
       case "listLike":
         list.forEach((item) => {
           if (item.id === index) {
-            item.chooseLike = true;
+            if (item.chooseLike !== true) {
+              item.chooseLike = true;
+              item.likes += 1;
+              updata(1, 0);
+            } else {
+              message.warning("已经赞了噢！");
+            }
           }
         });
-        updata();
         break;
       case "listMessage":
         console.log("listMessage");
-        break;
-      case "detailStar":
-        list.forEach((item) => {
-          if (item.id === index) {
-            item.chooseStar = true;
-          }
-        });
-        updata();
-        break;
-      case "detailLike":
-        list.forEach((item) => {
-          if (item.id === index) {
-            item.chooseLike = true;
-          }
-        });
-        updata();
-        break;
-      case "detailMessage":
-        console.log("detailMessage");
         break;
       default:
         break;
@@ -72,9 +71,8 @@ function IconText(props) {
           }
         }}
       >
-        {React.createElement(icon)}
+        {icon} <span>{text ? text : 0}</span>
       </div>
-      {text}
     </Space>
   );
 }

@@ -91,7 +91,6 @@ function UserSetting(props) {
       >
         <Input.Password />
       </Form.Item>
-
       <Form.Item
         name="confirm"
         label="重复新密码"

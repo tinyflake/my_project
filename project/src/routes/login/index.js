@@ -61,12 +61,13 @@ class Login extends Component {
             this.props.handleCancelLogin(values.username);
           },
         });
+        console.log("登录成功");
         //登录成功后请求用户头像并转base64
-        this.props.dispatch({
+        await this.props.dispatch({
           type: "index/getImage",
           payload: {
-            url: "/images",
-            iconUrl: this.props.iconUrl,
+            // url: "/images",
+            iconUrl: "/uploads/" + this.props.iconUrl,
           },
         });
       } else {

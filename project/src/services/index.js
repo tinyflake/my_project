@@ -20,9 +20,12 @@ export function requestAssistance(data) {
   return post("/api/requestAssistance", data);
 }
 export function getImage(payload) {
-  return axiosGetImage(payload.url, payload.iconUrl);
+  return axiosGetImage(payload.iconUrl);
 }
 
 export function getAnimalList(data) {
   return get("/users/getAnimalList", data);
+}
+export function addAndLike(data) {
+  return post("/api/addAndLike", data);
 }

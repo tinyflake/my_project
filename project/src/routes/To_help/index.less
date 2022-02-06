@@ -10,9 +10,17 @@
       margin-top: 20px;
       padding: 18px;
       .title {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
         display: flex;
+        border-bottom: 2px solid #888;
+        align-items: center;
         justify-content: space-between;
       }
+    }
+    .time {
+      float: right;
+      color: #999;
     }
   }
   .detail {
@@ -40,6 +48,12 @@
             width: 200px;
             padding: 8px;
           }
+        }
+        .time {
+          color: #999;
+          position: absolute;
+          bottom: 1em;
+          left: 2em;
         }
       }
       .icons {
@@ -84,6 +98,17 @@
     transform: scale(1.15);
     transition: 0.3s;
     overflow: hidden;
+  }
+}
+.titleForHelp {
+  display: inline-block;
+  text-indent: 1em;
+  cursor: pointer;
+  font-size: 17px;
+
+  &:hover {
+    color: #4970ff;
+    text-decoration: underline;
   }
 }
 .backTop {

@@ -66,6 +66,14 @@ function For_help(props) {
           >
             <Form.Item
               className={styles.formItem}
+              label="标题"
+              name="titleForHelp"
+              rules={[{ required: true, message: "请简述救助主题！" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              className={styles.formItem}
               label="联系电话"
               name="telphone"
               rules={[{ required: true, message: "请提供联系电话!" }]}

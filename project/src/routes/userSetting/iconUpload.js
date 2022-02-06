@@ -12,21 +12,6 @@ const IconUpload = () => {
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
-
-  // const onPreview = async (file) => {
-  //   let src = file.url;
-  //   if (!src) {
-  //     src = await new Promise((resolve) => {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(file.originFileObj);
-  //       reader.onload = () => resolve(reader.result);
-  //     });
-  //   }
-  //   const image = new Image();
-  //   image.src = src;
-  //   const imgWindow = window.open(src);
-  //   imgWindow.document.write(image.outerHTML);
-  // };
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -61,11 +46,10 @@ const IconUpload = () => {
           fileList={fileList}
           onPreview={handlePreview}
           onChange={onChange}
-          // beforeUpload={beforeUpload}
           headers={{ Authorization: "Bearer " + token }}
           maxCount={1}
         >
-          {fileList.length <= 1 && "+上传图片"}
+          {fileList.length < 2 && "+上传图片"}
         </Upload>
       </ImgCrop>
       <Modal

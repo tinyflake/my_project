@@ -5,6 +5,7 @@ import {
   requestAssistance,
   getImage,
   getAnimalList,
+  addAndLike,
 } from "../services/index";
 import { message } from "antd";
 export default {
@@ -40,22 +41,16 @@ export default {
         console.log(res.data.data);
         document.cookie = `token=${res.data.token}`;
         document.cookie = `nickname=${res.data.data.nickname}`;
-        //获取图片
-        // const base64 = yield call(getImage, res.data.data.icon);
-        // if (base64)
-        //   yield put({
-        //     type: "saveState",
-        //     payload: {
-        //       iconBase64: base64,
-        //     },
-        //   });
       }
       yield put({
         type: "saveState",
         payload: {
           username: res.data.data.username,
           nickname: res.data.data.nickname,
-          iconUrl: res.data.data.icon,
+          iconUrl: res.data.data.icon.replace(
+            "publicuploads",
+            "/public/uploads/"
+          ),
         },
       });
       callback && callback();
@@ -108,6 +103,17 @@ export default {
           type: "saveState",
           payload: {
             iconBase64: base64,
+          },
+        });
+    },
+    //收藏点赞
+    *addAndLike({ payload, callback }, { call, put }) {
+      const base64 = yield call(addAndLike, payload);
+      if (base64)
+        yield put({
+          type: "saveState",
+          payload: {
+            // iconBase64: base64,
           },
         });
     },

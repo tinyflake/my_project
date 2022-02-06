@@ -24,4 +24,7 @@ router.get("/image", function (req, res, next) {
   });
 });
 
+//点赞收藏
+router.post("/addAndLike", api.addAndLike);
+
 module.exports = router;

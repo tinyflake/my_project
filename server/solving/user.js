@@ -3,7 +3,6 @@ var db = require("../config/db"); //引入数据库封装模块
 const jwt = require("jsonwebtoken");
 const secretkey = "tinyflake"; //私钥
 
-const iconUrl = "/image/moren.png";
 //登录验证
 var userLogin = (req, res) => {
   //接收数据 req.body----post   req.query----get
@@ -24,7 +23,6 @@ var userLogin = (req, res) => {
             expiresIn: "2 days",
           });
           // console.log(token);
-          console.log(iconUrl);
           res.send({
             message: "登录成功",
             data: { ...target },

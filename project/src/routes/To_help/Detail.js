@@ -2,14 +2,9 @@ import React from "react";
 import { PageHeader, Card } from "antd";
 import styles from "./index.less";
 import IconText from "./IconText";
-import {
-  MessageOutlined,
-  LikeOutlined,
-  LikeFilled,
-  StarOutlined,
-  StarFilled,
-} from "@ant-design/icons";
-export default function Detail(props) {
+import { MessageOutlined, StarTwoTone, LikeTwoTone } from "@ant-design/icons";
+import { connect } from "dva";
+const Detail = (props) => {
   const { detailItem, setshowDetail } = props;
   return (
     <>
@@ -17,8 +12,7 @@ export default function Detail(props) {
         <PageHeader
           className={styles.site_page_header}
           onBack={() => setshowDetail(false)}
-          title="这里是标题"
-          // subTitle="This is a subtitle"
+          title={detailItem.titleForHelp}
         >
           <div className={styles.detailItem}>
             <div>
@@ -38,31 +32,42 @@ export default function Detail(props) {
                       >
                         {detailItem.remark}
                       </p>
+                      <span className={styles.time}>
+                        时间：{detailItem.waiting_time}
+                      </span>
                     </div>
                     <div className={styles.icons}>
                       <IconText
                         className={styles.btnIcon}
                         index={detailItem.id}
                         icon={
-                          !detailItem.chooseStar ? StarOutlined : StarFilled
+                          !detailItem.chooseStar ? (
+                            <StarTwoTone twoToneColor="#aaa" />
+                          ) : (
+                            <StarTwoTone twoToneColor="#ffa500" />
+                          )
                         }
-                        iconId="detailStar"
-                        text={detailItem.star}
+                        iconId="listStar"
+                        text={detailItem.stars}
                       />
                       <IconText
                         className={styles.btnIcon}
                         index={detailItem.id}
-                        iconId="detailLike"
+                        iconId="listLike"
                         icon={
-                          !detailItem.chooseLike ? LikeOutlined : LikeFilled
+                          !detailItem.chooseLike ? (
+                            <LikeTwoTone twoToneColor="#aaa" />
+                          ) : (
+                            <LikeTwoTone twoToneColor="#67c6ea" />
+                          )
                         }
-                        text={detailItem.like}
+                        text={detailItem.likes}
                       />
                       <IconText
                         className={styles.btnIcon}
                         index={detailItem.id}
-                        iconId="detailMessage"
-                        icon={MessageOutlined}
+                        iconId="listMessage"
+                        icon={<MessageOutlined />}
                         text={detailItem.message}
                       />
                     </div>
@@ -112,4 +117,9 @@ export default function Detail(props) {
       </div>
     </>
   );
-}
+};
+const mapStateToProps = (state) => {
+  console.log(state, "Detail");
+  return {};
+};
+export default connect(mapStateToProps)(Detail);

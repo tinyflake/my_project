@@ -12,8 +12,16 @@
   padding: 18px;
 }
 .base .main > div .title {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
   display: flex;
+  border-bottom: 2px solid #888;
+  align-items: center;
   justify-content: space-between;
+}
+.base .main .time {
+  float: right;
+  color: #999;
 }
 .base .detail {
   padding-top: 50px;
@@ -41,6 +49,12 @@
 .base .detail .detailItem .itemCard > div img {
   width: 200px;
   padding: 8px;
+}
+.base .detail .detailItem .itemCard .time {
+  color: #999;
+  position: absolute;
+  bottom: 1em;
+  left: 2em;
 }
 .base .detail .detailItem .icons {
   position: absolute;
@@ -80,6 +94,16 @@
   transform: scale(1.15);
   transition: 0.3s;
   overflow: hidden;
+}
+.titleForHelp {
+  display: inline-block;
+  text-indent: 1em;
+  cursor: pointer;
+  font-size: 17px;
+}
+.titleForHelp:hover {
+  color: #4970ff;
+  text-decoration: underline;
 }
 .backTop {
   height: 40px;
