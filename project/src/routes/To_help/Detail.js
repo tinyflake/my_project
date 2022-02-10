@@ -1,11 +1,14 @@
 import React from "react";
-import { PageHeader, Card } from "antd";
+import { PageHeader, Card, Carousel, Avatar, Tooltip } from "antd";
 import styles from "./index.less";
 import IconText from "./IconText";
 import { MessageOutlined, StarTwoTone, LikeTwoTone } from "@ant-design/icons";
 import { connect } from "dva";
+import { Help } from "../../utils/image";
+import AddComment from "./AddComment";
 const Detail = (props) => {
-  const { detailItem, setshowDetail } = props;
+  const { detailItem, setshowDetail, iconBase64, username } = props;
+  const isLogin = username;
   return (
     <>
       <div className={styles.detail}>
@@ -19,15 +22,49 @@ const Detail = (props) => {
               <Card bordered={false}>
                 <div className={styles.itemCard}>
                   <div>
-                    <div>
-                      <img src={detailItem.userSrc} alt="" />
+                    <div style={{ width: 200 }}>
+                      <Carousel autoplay className={styles.lunbo}>
+                        <div>
+                          <img src={detailItem.pic0} alt="" />
+                        </div>
+                        {detailItem.pic1 ? (
+                          <div>
+                            <img src={detailItem.pic1} alt="" />
+                          </div>
+                        ) : null}
+                        {detailItem.pic2 ? (
+                          <div>
+                            <img src={detailItem.pic2} alt="" />
+                          </div>
+                        ) : null}
+                      </Carousel>
                     </div>
-                    <div style={{ marginLeft: "15px", marginBottom: 30 }}>
+                    <div
+                      style={{
+                        marginLeft: "15px",
+                        marginBottom: 30,
+                        width: "100%",
+                      }}
+                    >
+                      <div>
+                        <Avatar
+                          src={
+                            "http://127.0.0.1:8888/uploads/" + detailItem.icon
+                          }
+                        />
+                        <span style={{ padding: 8 }}>
+                          {detailItem.nickname}
+                        </span>
+                        <span className={styles.telphone}>
+                          联系电话:{detailItem.telphone}
+                        </span>
+                      </div>
                       <p
                         style={{
                           textIndent: "2em",
                           wordBreak: "break-all",
                           overflow: "hidden",
+                          padding: 8,
                         }}
                       >
                         {detailItem.remark}
@@ -68,6 +105,7 @@ const Detail = (props) => {
                         index={detailItem.id}
                         iconId="listMessage"
                         icon={<MessageOutlined />}
+                        setshowComments={props.setshowComments}
                         text={detailItem.message}
                       />
                     </div>
@@ -75,51 +113,66 @@ const Detail = (props) => {
                 </div>
               </Card>
             </div>
-            <div style={{ maxWidth: "300px" }}>
+            <div style={{ maxWidth: "350px" }}>
               <Card
                 title={
                   <div style={{ textAlign: "center" }}>
-                    <img
-                      src=""
-                      className={styles.loginLogo}
+                    <Avatar
+                      size="large"
+                      src={isLogin ? iconBase64 : Help}
                       alt="请先登录，参与动物救助！"
                     />
                     <p className={styles.item_p}>欢迎来到XX流浪动物救助平台</p>
                   </div>
                 }
               >
-                <div className={styles.itemLogin}>
-                  <button
-                    onClick={() => {
-                      props.dispatch({
-                        type: "index/changeSetShowLogin",
-                        payload: { showLogin: true },
-                      });
-                    }}
-                  >
-                    登录
-                  </button>
-                  <button
-                    onClick={() => {
-                      props.dispatch({
-                        type: "index/changeSetShowReg",
-                        payload: { showReg: true },
-                      });
-                    }}
-                  >
-                    注册
-                  </button>
-                </div>
+                {!isLogin ? (
+                  <div className={styles.itemLogin}>
+                    <button
+                      onClick={() => {
+                        props.dispatch({
+                          type: "index/changeSetShowLogin",
+                          payload: { showLogin: true },
+                        });
+                      }}
+                    >
+                      登录
+                    </button>
+                    <button
+                      onClick={() => {
+                        props.dispatch({
+                          type: "index/changeSetShowReg",
+                          payload: { showReg: true },
+                        });
+                      }}
+                    >
+                      注册
+                    </button>
+                  </div>
+                ) : null}
               </Card>
+              <div className={styles.mytelphone}>
+                <h3>
+                  帮助热线: <span>40032403240</span>
+                </h3>
+              </div>
             </div>
           </div>
         </PageHeader>
+        {props.showComments ? (
+          <div className={styles.comments}>
+            <AddComment />
+          </div>
+        ) : null}
       </div>
     </>
   );
 };
 const mapStateToProps = (state) => {
   console.log(state, "Detail");
-  return {};
+  return {
+    iconBase64: state.index.iconBase64,
+    username: state.index.username,
+  };
 };
 export default connect(mapStateToProps)(Detail);

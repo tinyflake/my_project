@@ -9,6 +9,7 @@ import ToHelp from "../assets/images/forhelp.png";
 import Fuwu from "../assets/images/fuwu.png";
 import Si from "../assets/images/si.png";
 import JinUs from "../assets/images/joinus.png";
+import Help from "../assets/images/help.jpg";
 
 import F1 from "../assets/images/f1.png";
 import F2 from "../assets/images/f2.png";
@@ -23,6 +24,7 @@ export {
   Logo,
   AdCat,
   Forhelp,
+  Help,
   ToHelp,
   Fuwu,
   Si,

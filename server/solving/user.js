@@ -77,52 +77,103 @@ var userReg = (req, res, next) => {
   }
 };
 var getAnimalList = (req, res, next) => {
-  console.log("查询动物列表", req.query.pageNo, req.query.type);
+  console.log("查询动物列表", "页码", req.query.pageNo, "类型", req.query.type);
   try {
-    // 查询当前用户信息;
-    db.query(`select * From tb_forhelp`, [], function (result, err) {
-      if (req.query.type !== "all")
-        switch (req.query.type) {
-          case "cat":
-            result = result.filter((item) => {
-              return item.waiting_type_animal === "cat";
-            });
-            break;
-          case "dog":
-            result = result.filter((item) => {
-              return item.waiting_type_animal === "dog";
-            });
-            break;
-          case "other":
-            result = result.filter((item) => {
-              return item.waiting_type_animal === "other";
-            });
-            break;
-          default:
-            break;
-        }
-      const len = result.length;
-      result = result.filter((item, index) => {
-        if (
-          index >= 5 * Number(req.query.pageNo) - 5 &&
-          index < 5 * Number(req.query.pageNo)
-        ) {
-          return item;
-        }
-      });
-      res.send({
-        code: 200,
-        message: "查询成功",
-        list: result,
-        total: len,
-        pageNo: req.body.pageNo,
-      });
-    });
+    db.query(
+      `SELECT *
+  FROM tb_user join tb_forhelp 
+  ON tb_user.username=tb_forhelp.username `,
+      [],
+      function (result, err) {
+        if (req.query.type !== "all")
+          switch (req.query.type) {
+            case "cat":
+              result = result.filter((item) => {
+                return item.waiting_type_animal === "cat";
+              });
+              break;
+            case "dog":
+              result = result.filter((item) => {
+                return item.waiting_type_animal === "dog";
+              });
+              break;
+            case "other":
+              result = result.filter((item) => {
+                return item.waiting_type_animal === "other";
+              });
+              break;
+            default:
+              break;
+          }
+        const len = result.length;
+        result = result.filter((item, index) => {
+          if (
+            index >= 5 * Number(req.query.pageNo) - 5 &&
+            index < 5 * Number(req.query.pageNo)
+          ) {
+            return item;
+          }
+        });
+        res.send({
+          code: 200,
+          message: "查询成功",
+          list: result,
+          total: len,
+          pageNo: req.body.pageNo,
+        });
+      }
+    );
   } catch (error) {
     res.send({
       code: -200,
       message: error,
     });
   }
+  // try {
+  // 查询当前用户信息;
+  //   db.query(`select * From tb_forhelp`, [], function (result, err) {
+  //     if (req.query.type !== "all")
+  //       switch (req.query.type) {
+  //         case "cat":
+  //           result = result.filter((item) => {
+  //             return item.waiting_type_animal === "cat";
+  //           });
+  //           break;
+  //         case "dog":
+  //           result = result.filter((item) => {
+  //             return item.waiting_type_animal === "dog";
+  //           });
+  //           break;
+  //         case "other":
+  //           result = result.filter((item) => {
+  //             return item.waiting_type_animal === "other";
+  //           });
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //     const len = result.length;
+  //     result = result.filter((item, index) => {
+  //       if (
+  //         index >= 5 * Number(req.query.pageNo) - 5 &&
+  //         index < 5 * Number(req.query.pageNo)
+  //       ) {
+  //         return item;
+  //       }
+  //     });
+  //     res.send({
+  //       code: 200,
+  //       message: "查询成功",
+  //       list: result,
+  //       total: len,
+  //       pageNo: req.body.pageNo,
+  //     });
+  //   });
+  // } catch (error) {
+  //   res.send({
+  //     code: -200,
+  //     message: error,
+  //   });
+  // }
 };
 module.exports = { userLogin, userReg, getAnimalList };

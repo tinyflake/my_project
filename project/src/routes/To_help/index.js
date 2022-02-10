@@ -21,6 +21,7 @@ function To_help(props) {
   const [detailItem, setdetailItem] = useState({});
   const [pageNo, setpageNo] = useState(1);
   const [animalType, setanimalType] = useState("all");
+  const [showComments, setshowComments] = useState(false);
   useEffect(() => {
     getData();
   }, [pageNo, animalType]);
@@ -33,27 +34,18 @@ function To_help(props) {
       },
     });
     for (let i = 0; i < res.length; i++) {
-      res[i].userSrc = await axiosGetBinaryImage("/uploads/", res[i].pic0);
+      res[i].pic0 = await axiosGetBinaryImage("/uploads/", res[i].pic0);
+      if (res[i].pic1) {
+        res[i].pic1 = await axiosGetBinaryImage("/uploads/", res[i].pic1);
+      }
+      if (res[i].pi2) {
+        res[i].pic2 = await axiosGetBinaryImage("/uploads/", res[i].pic2);
+      }
       res[i].chooseStar = false;
       res[i].chooseLike = false;
     }
     setdataList(res);
   };
-  // const listData = [
-  //   {
-  //     id: 0,
-  //     href: "https://ant.design",
-  //     title: `名称A`,
-  //     avatar: Avator,
-  //     description: "2021-10-22",
-  //     content: "这里是一段描述",
-  //     src: "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png",
-  //     star: 333,
-  //     like: 0,
-  //     message: 3,
-  //     chooseStar: false,
-  //   },
-  // ];
   const options = [
     { label: "全部", value: "all" },
     { label: "猫猫", value: "cat" },
@@ -125,7 +117,7 @@ function To_help(props) {
                           className={styles.blowUp}
                           width={272}
                           alt="logo"
-                          src={item.userSrc}
+                          src={item.pic0}
                         />
                       </button>
                     }
@@ -133,7 +125,9 @@ function To_help(props) {
                     <List.Item.Meta
                       avatar={
                         <div>
-                          <Avatar src={item.avatar} />
+                          <Avatar
+                            src={"http://127.0.0.1:8888/uploads/" + item.icon}
+                          />
                           <span
                             className={styles.titleForHelp}
                             onClick={() => detailForHelp(item)}
@@ -204,6 +198,8 @@ function To_help(props) {
                         index={item.id}
                         icon={<MessageOutlined />}
                         text={item.message}
+                        setshowComments={setshowComments}
+                        detailForHelp={() => detailForHelp(item)}
                         iconId="listMessage"
                         key="listMessage"
                       />
@@ -221,7 +217,12 @@ function To_help(props) {
           </div>
         </div>
       ) : (
-        <Detail detailItem={detailItem} setshowDetail={setshowDetail} />
+        <Detail
+          detailItem={detailItem}
+          setshowDetail={setshowDetail}
+          setshowComments={setshowComments}
+          showComments={showComments}
+        />
       )}
       <BackTop>
         <div className={styles.backTop}>

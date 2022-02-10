@@ -27,4 +27,8 @@ router.get("/image", function (req, res, next) {
 //点赞收藏
 router.post("/addAndLike", api.addAndLike);
 
+//添加评论
+router.post("/addComment", api.addComment);
+//查询评论
+router.get("/getComment", api.getComment);
 module.exports = router;

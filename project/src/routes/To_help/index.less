@@ -32,6 +32,8 @@
     .detailItem {
       display: flex;
       justify-content: space-between;
+      max-width: 1280px;
+      margin: 0 auto;
       > div {
         width: 100%;
       }
@@ -44,10 +46,10 @@
           padding: 12px;
           border-radius: 5px;
           border: 1px solid #dddddd;
-          img {
-            width: 200px;
-            padding: 8px;
-          }
+          // img {
+          //   width: 200px;
+          //   padding: 8px;
+          // }
         }
         .time {
           color: #999;
@@ -67,11 +69,6 @@
         .btnIcon {
           cursor: pointer;
         }
-      }
-      .loginLogo {
-        width: 44px;
-        border-radius: 44px;
-        background-color: rgb(160, 217, 246);
       }
       .item_p {
         margin-top: 10px;
@@ -120,4 +117,39 @@
   color: #fff;
   text-align: center;
   font-size: 24px;
+}
+.telphone {
+  float: right;
+}
+.mytelphone {
+  h3 {
+    margin: 0;
+    padding: 0;
+    font-weight: bolder;
+    color: blueviolet;
+    text-align: center;
+    line-height: 50px;
+    span {
+      color: chocolate;
+    }
+  }
+}
+.lunbotu {
+  width: 200px;
+  height: 200px;
+  color: #fff;
+  line-height: 200px;
+  text-align: center;
+  background-color: #f1b883;
+}
+.lunbo {
+  img {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+  }
+}
+.comments {
+  margin: 0 auto;
+  width: 85%;
 }

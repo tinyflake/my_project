@@ -35,6 +35,7 @@ var userUpdata = (req, res, next) => {
   }
 };
 var fs = require("fs");
+const moment = require("moment");
 var uploudPic = (req, res, next) => {
   try {
     // 查询当前用户信息;
@@ -162,4 +163,37 @@ var addAndLike = (req, res, next) => {
     });
   }
 };
-module.exports = { userUpdata, uploudPic, requestAssistance, addAndLike };
+var addComment = (req, res, next) => {
+  db.query(
+    `INSERT INTO tb_comments (id, comment, create_time,observer) VALUES ('${req.body.id}', '${req.body.comment}', '${req.body.create_time}','${req.user.username}')`,
+    [],
+    function (results, fields) {
+      res.send({
+        code: 200,
+        message: "评论成功！",
+      });
+    }
+  );
+};
+var getComment = (req, res, next) => {
+  db.query(
+    `select * from tb_comments where id='${req.query.id}'`,
+    [],
+    function (results, fields) {
+      // console.log(moment(results[0].create_time).format("YYYY-MM-DD HH:mm:ss"));
+      res.send({
+        code: 200,
+        list: results,
+        message: "获取成功！",
+      });
+    }
+  );
+};
+module.exports = {
+  userUpdata,
+  uploudPic,
+  requestAssistance,
+  addAndLike,
+  addComment,
+  getComment,
+};

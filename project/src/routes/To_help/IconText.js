@@ -50,14 +50,15 @@ function IconText(props) {
         });
         break;
       case "listMessage":
-        console.log("listMessage");
+        props.setshowComments(true);
+        props.detailForHelp();
         break;
       default:
         break;
     }
   };
   return (
-    <Space>
+    <Space style={{ cursor: "pointer" }}>
       <div
         onClick={() => {
           if (getCookie("username")) {
