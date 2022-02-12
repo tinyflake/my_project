@@ -1,21 +1,30 @@
 import React, { Component } from "react";
-import { Comment, Avatar, Form, Button, List, Input, Tooltip } from "antd";
+import {
+  Comment,
+  Avatar,
+  Form,
+  Button,
+  List,
+  Input,
+  Tooltip,
+  ConfigProvider,
+} from "antd";
+import { MessageOutlined, DeleteTwoTone } from "@ant-design/icons";
+import zhCN from "antd/lib/locale/zh_CN";
 import moment from "moment";
+import { connect } from "dva";
+import styles from "./index.less";
 const { TextArea } = Input;
-
-const CommentList = ({ comments }) => (
-  <List
-    dataSource={comments}
-    header={`${comments.length} ${comments.length > 1 ? "replies" : "reply"}`}
-    itemLayout="horizontal"
-    renderItem={(props) => <Comment {...props} />}
-  />
-);
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
   <>
     <Form.Item>
-      <TextArea rows={4} onChange={onChange} value={value} />
+      <TextArea
+        rows={4}
+        style={{ resize: "none" }}
+        onChange={onChange}
+        value={value}
+      />
     </Form.Item>
     <Form.Item>
       <Button
@@ -24,82 +33,96 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
         onClick={onSubmit}
         type="primary"
       >
-        Add Comment
+        发表评论
       </Button>
     </Form.Item>
   </>
 );
 
-export default class AddComment extends Component {
-  state = {
-    comments: [
-      {
-        actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-        author: "Han Solo",
-        avatar: "https://joeschmoe.io/api/v1/random",
-        content: (
-          <p>
-            We supply a series of design principles, practical patterns and high
-            quality design resources (Sketch and Axure), to help people create
-            their product prototypes beautifully and efficiently.
-          </p>
-        ),
-        datetime: (
-          <Tooltip
-            title={moment().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss")}
-          >
-            <span>{moment().subtract(1, "days").fromNow()}</span>
-          </Tooltip>
-        ),
-      },
-      {
-        actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-        author: "Han Solo",
-        avatar: "https://joeschmoe.io/api/v1/random",
-        content: (
-          <p>
-            We supply a series of design principles, practical patterns and high
-            quality design resources (Sketch and Axure), to help people create
-            their product prototypes beautifully and efficiently.
-          </p>
-        ),
-        datetime: (
-          <Tooltip
-            title={moment().subtract(2, "days").format("YYYY-MM-DD HH:mm:ss")}
-          >
-            <span>{moment().subtract(2, "days").fromNow()}</span>
-          </Tooltip>
-        ),
-      },
-    ],
-    submitting: false,
-    value: "",
-  };
+class AddComment extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitting: false,
+      value: "",
+    };
+  }
+  componentDidMount() {
+    this.getComments();
+  }
+  //   static getDerivedStateFromProps(nextProps, prevState) {
+  //     if (prevState.comments !== nextProps.commentslist) {
+  //       return {
+  //         comments: nextProps.commentslist,
+  //       };
+  //     }
+  //     return null;
+  //   }
 
+  delComment = async (item) => {
+    console.log("删除评论", item);
+    await this.props.dispatch({
+      type: "index/delComment",
+      payload: { indexofcomment: item.indexofcomment },
+    });
+    this.getComments();
+  };
+  getComments = async () => {
+    await this.props.dispatch({
+      type: "index/getComment",
+      payload: { id: this.props.id },
+    });
+    this.setState({
+      value: "",
+    });
+    this.props.commentslist &&
+      this.props.commentslist.forEach((item) => {
+        item.author = item.observer;
+        item.observer = null;
+        item.avatar = "http://127.0.0.1:8888/uploads/moren.png";
+        item.actions = [
+          <div className={styles.commentIcon}>
+            <span key={item.id}>
+              <MessageOutlined />
+            </span>
+            <span key={item.id + "1"}>
+              <DeleteTwoTone onClick={() => this.delComment(item)} />
+            </span>
+          </div>,
+        ];
+        item.content = <p>{item.comment}</p>;
+        item.datetime = (
+          <ConfigProvider locale={zhCN}>
+            <Tooltip
+              title={moment()
+                .subtract(item.datetime, "days")
+                .format("YYYY-MM-DD HH:mm:ss")}
+            >
+              <span>{moment().subtract(item.datetime, "days").fromNow()}</span>
+            </Tooltip>
+          </ConfigProvider>
+        );
+      });
+  };
   handleSubmit = () => {
     if (!this.state.value) {
       return;
     }
-
-    this.setState({
-      submitting: true,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        submitting: false,
-        value: "",
-        comments: [
-          ...this.state.comments,
-          {
-            author: "Han Solo",
-            avatar: "https://joeschmoe.io/api/v1/random",
-            content: <p>{this.state.value}</p>,
-            datetime: moment().fromNow(),
-          },
-        ],
-      });
-    }, 1000);
+    console.log(this.state.value);
+    this.setState(
+      {
+        submitting: true,
+      },
+      () => {
+        this.getComments();
+      }
+    );
+    // setTimeout(() => {
+    //   this.setState({
+    //     submitting: false,
+    //     value: "",
+    //   });
+    // }, 1000);
   };
 
   handleChange = (e) => {
@@ -109,14 +132,30 @@ export default class AddComment extends Component {
   };
 
   render() {
-    const { comments, submitting, value } = this.state;
-
+    const { submitting, value } = this.state;
+    const { commentslist } = this.props;
     return (
-      <>
-        {comments.length > 0 && <CommentList comments={comments} />}
+      <div>
+        {commentslist.length > 0 ? (
+          <div style={{ overflowY: "auto", height: "55vh" }}>
+            <List
+              dataSource={commentslist}
+              header={`${commentslist.length} ${
+                commentslist.length > 1 ? "条评论" : "评论"
+              }`}
+              itemLayout="vertical"
+              renderItem={(props) => <Comment {...props} />}
+            />
+          </div>
+        ) : null}
         <Comment
           avatar={
-            <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+            <Avatar
+              src={this.props.iconBase64}
+              alt={
+                this.props.nickname ? this.props.nickname : this.props.username
+              }
+            />
           }
           content={
             <Editor
@@ -127,7 +166,17 @@ export default class AddComment extends Component {
             />
           }
         />
-      </>
+      </div>
     );
   }
 }
+const mapStateToProps = (state) => {
+  console.log(state, "AddComment");
+  return {
+    commentslist: state.index.commentslist,
+    iconBase64: state.index.iconBase64,
+    nickname: state.index.nickname,
+    username: state.index.username,
+  };
+};
+export default connect(mapStateToProps)(AddComment);

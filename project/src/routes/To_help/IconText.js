@@ -53,6 +53,9 @@ function IconText(props) {
         props.setshowComments(true);
         props.detailForHelp();
         break;
+      case "detailMessage":
+        props.setshowComments(true);
+        break;
       default:
         break;
     }

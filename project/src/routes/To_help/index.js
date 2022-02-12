@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "dva";
 import styles from "./index.less";
-import Loginandreg from "./../../components/loginandreg";
-import Footer from "./../../components/footer/index";
-import HeadTag from "./../../components/head-tag/index";
+import Loginandreg from "../../components/loginandreg";
+import Footer from "../../components/footer/index";
+import HeadTag from "../../components/head-tag/index";
 import { List, Avatar, Button, Radio, BackTop, ConfigProvider } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
 import IconText from "./IconText";
@@ -118,6 +118,7 @@ function To_help(props) {
                           width={272}
                           alt="logo"
                           src={item.pic0}
+                          style={{ width: 200 }}
                         />
                       </button>
                     }
@@ -221,6 +222,7 @@ function To_help(props) {
           detailItem={detailItem}
           setshowDetail={setshowDetail}
           setshowComments={setshowComments}
+          detailForHelp={detailForHelp}
           showComments={showComments}
         />
       )}

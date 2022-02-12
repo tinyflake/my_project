@@ -29,3 +29,9 @@ export function getAnimalList(data) {
 export function addAndLike(data) {
   return post("/api/addAndLike", data);
 }
+export function getComment(data) {
+  return get("/api/getComment", data);
+}
+export function delComment(data) {
+  return get("/api/delComment", data);
+}

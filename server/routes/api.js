@@ -31,4 +31,7 @@ router.post("/addAndLike", api.addAndLike);
 router.post("/addComment", api.addComment);
 //查询评论
 router.get("/getComment", api.getComment);
+//删除评论
+router.get("/delComment", api.delComment);
+
 module.exports = router;

@@ -6,6 +6,8 @@ import {
   getImage,
   getAnimalList,
   addAndLike,
+  getComment,
+  delComment,
 } from "../services/index";
 import { message } from "antd";
 export default {
@@ -23,6 +25,7 @@ export default {
     iconUrl: "",
     animalList: [],
     total: 0,
+    commentslist: [], //评论数据
   },
 
   subscriptions: {
@@ -117,6 +120,25 @@ export default {
           },
         });
     },
+    //
+    *getComment({ payload, callback }, { call, put }) {
+      const res = yield call(getComment, payload);
+      if (res)
+        yield put({
+          type: "saveState",
+          payload: {
+            commentslist: res.data.list,
+          },
+        });
+    },
+    *delComment({ payload, callback }, { call, put }) {
+      const res = yield call(delComment, payload);
+      if (res)
+        yield put({
+          type: "saveState",
+          payload: {},
+        });
+    },
   },
 
   reducers: {
@@ -163,6 +185,12 @@ export default {
       };
     },
     updataAnimalList(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    changeCommentslist(state, { payload }) {
       return {
         ...state,
         ...payload,

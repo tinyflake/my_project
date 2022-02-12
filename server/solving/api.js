@@ -189,6 +189,25 @@ var getComment = (req, res, next) => {
     }
   );
 };
+var delComment = (req, res, next) => {
+  try {
+    db.query(
+      `DELETE FROM tb_comments WHERE indexofcomment="${req.query.indexofcomment}"`,
+      [],
+      function (results, fields) {
+        res.send({
+          code: 200,
+          message: "删除成功！",
+        });
+      }
+    );
+  } catch (error) {
+    res.send({
+      code: -200,
+      message: error,
+    });
+  }
+};
 module.exports = {
   userUpdata,
   uploudPic,
@@ -196,4 +215,5 @@ module.exports = {
   addAndLike,
   addComment,
   getComment,
+  delComment,
 };

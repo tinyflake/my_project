@@ -1,5 +1,5 @@
 import React from "react";
-import { PageHeader, Card, Carousel, Avatar, Tooltip } from "antd";
+import { PageHeader, Card, Carousel, Avatar } from "antd";
 import styles from "./index.less";
 import IconText from "./IconText";
 import { MessageOutlined, StarTwoTone, LikeTwoTone } from "@ant-design/icons";
@@ -14,7 +14,13 @@ const Detail = (props) => {
       <div className={styles.detail}>
         <PageHeader
           className={styles.site_page_header}
-          onBack={() => setshowDetail(false)}
+          onBack={() => {
+            setshowDetail(false);
+            props.dispatch({
+              type: "index/changeCommentslist",
+              payload: { commentslist: [] },
+            });
+          }}
           title={detailItem.titleForHelp}
         >
           <div className={styles.detailItem}>
@@ -86,11 +92,13 @@ const Detail = (props) => {
                         }
                         iconId="listStar"
                         text={detailItem.stars}
+                        detailForHelp={() => props.detailForHelp(detailItem)}
                       />
                       <IconText
                         className={styles.btnIcon}
                         index={detailItem.id}
                         iconId="listLike"
+                        detailForHelp={() => props.detailForHelp(detailItem)}
                         icon={
                           !detailItem.chooseLike ? (
                             <LikeTwoTone twoToneColor="#aaa" />
@@ -103,7 +111,7 @@ const Detail = (props) => {
                       <IconText
                         className={styles.btnIcon}
                         index={detailItem.id}
-                        iconId="listMessage"
+                        iconId="detailMessage"
                         icon={<MessageOutlined />}
                         setshowComments={props.setshowComments}
                         text={detailItem.message}
@@ -161,7 +169,7 @@ const Detail = (props) => {
         </PageHeader>
         {props.showComments ? (
           <div className={styles.comments}>
-            <AddComment />
+            <AddComment id={detailItem.id} />
           </div>
         ) : null}
       </div>

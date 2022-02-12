@@ -5,9 +5,12 @@
 .base .main {
   padding-top: 50px;
   padding: 50px 200px;
+  background-image: url("../../assets/images/dog1.jpg");
+  background-size: cover;
 }
 .base .main > div {
-  border: 1px solid #4ec1dd;
+  box-shadow: 1px 2px 10px 1px #999;
+  background: #fff;
   margin-top: 20px;
   padding: 18px;
 }
@@ -138,4 +141,9 @@
 .comments {
   margin: 0 auto;
   width: 85%;
+}
+.commentIcon {
+  display: flex;
+  width: 70vw;
+  justify-content: space-between;
 }

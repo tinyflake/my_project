@@ -15,4 +15,5 @@ router.get("/test", function (req, res, next) {
 });
 //查询流浪动物
 router.get("/getAnimalList", user.getAnimalList);
+
 module.exports = router;
