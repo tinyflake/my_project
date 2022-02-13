@@ -72,11 +72,9 @@ class AddComment extends Component {
       type: "index/getComment",
       payload: { id: this.props.id },
     });
-    this.setState({
-      value: "",
-    });
-    this.props.commentslist &&
-      this.props.commentslist.forEach((item) => {
+    const list = [...this.props.commentslist];
+    list &&
+      list.forEach((item) => {
         item.author = item.observer;
         item.observer = null;
         item.avatar = "http://127.0.0.1:8888/uploads/moren.png";
@@ -103,6 +101,15 @@ class AddComment extends Component {
           </ConfigProvider>
         );
       });
+    await this.props.dispatch({
+      type: "index/changecommentslist",
+      payload: {
+        commentslist: list,
+      },
+    });
+    this.setState({
+      value: "",
+    });
   };
   handleSubmit = () => {
     if (!this.state.value) {
