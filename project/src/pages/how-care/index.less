@@ -1,0 +1,82 @@
+.base {
+  overflow: hidden;
+  .main {
+    min-width: 960px;
+    margin-top: 50px;
+    .nav {
+      position: fixed;
+      left: 3%;
+      top: 33%;
+      li {
+        list-style: none;
+        a {
+          color: #e19915;
+          display: inline-block;
+          padding: 12px 14px;
+
+          &:hover {
+            background-color: antiquewhite;
+            color: #1890ff;
+          }
+        }
+      }
+    }
+    .care {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      > div {
+        width: 80vw;
+      }
+      h1 {
+        padding: 10px;
+        color: #e19915;
+      }
+      .health {
+        .list {
+          display: flex;
+          flex-wrap: wrap;
+          li {
+            min-width: 360px;
+            width: 50%;
+            box-sizing: border-box;
+            // height: 400px;
+            list-style: none;
+            overflow: hidden;
+            padding: 5px;
+            border: 10px solid #fff;
+            background-color: #fbf9f9;
+            border-radius: 20px;
+
+            > div {
+              display: flex;
+              justify-content: center;
+            }
+            p {
+              text-indent: 2em;
+            }
+            h2 {
+              font-size: larger;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+      .cat {
+        article {
+          > div {
+            text-align: center;
+          }
+        }
+      }
+      .dog {
+        > div {
+          > div {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

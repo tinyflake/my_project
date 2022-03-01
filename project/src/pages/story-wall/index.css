@@ -1,0 +1,45 @@
+.base {
+  width: 100%;
+  overflow: hidden;
+}
+.base .main {
+  margin-top: 50px;
+}
+.base .main .mainhaed {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.base .main .mainhaed h1 {
+  text-align: center;
+  display: inline-block;
+  width: 200px;
+  height: 60px;
+  line-height: 60px;
+  border: 1px solid orange;
+  border-radius: 50px;
+  margin: 0;
+}
+.base .main .list {
+  margin: 0 auto;
+  margin-top: 10vh;
+  width: 85%;
+}
+.base .main .list video {
+  width: 100%;
+}
+.base .main .list span {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  margin-top: 20px;
+}
+.base .main .list .empty {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}

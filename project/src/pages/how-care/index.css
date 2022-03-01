@@ -1,0 +1,69 @@
+.base {
+  overflow: hidden;
+}
+.base .main {
+  min-width: 960px;
+  margin-top: 50px;
+}
+.base .main .nav {
+  position: fixed;
+  left: 3%;
+  top: 33%;
+}
+.base .main .nav li {
+  list-style: none;
+}
+.base .main .nav li a {
+  color: #e19915;
+  display: inline-block;
+  padding: 12px 14px;
+}
+.base .main .nav li a:hover {
+  background-color: antiquewhite;
+  color: #1890ff;
+}
+.base .main .care {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.base .main .care > div {
+  width: 80vw;
+}
+.base .main .care h1 {
+  padding: 10px;
+  color: #e19915;
+}
+.base .main .care .health .list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.base .main .care .health .list li {
+  min-width: 360px;
+  width: 50%;
+  box-sizing: border-box;
+  list-style: none;
+  overflow: hidden;
+  padding: 5px;
+  border: 10px solid #fff;
+  background-color: #fbf9f9;
+  border-radius: 20px;
+}
+.base .main .care .health .list li > div {
+  display: flex;
+  justify-content: center;
+}
+.base .main .care .health .list li p {
+  text-indent: 2em;
+}
+.base .main .care .health .list li h2 {
+  font-size: larger;
+  font-weight: 700;
+}
+.base .main .care .cat article > div {
+  text-align: center;
+}
+.base .main .care .dog > div > div {
+  text-align: center;
+}
